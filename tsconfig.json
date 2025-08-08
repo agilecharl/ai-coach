@@ -8,6 +8,15 @@
     },
     {
       "path": "./apps/ai-coach"
+    },
+    {
+      "path": "./libs/utils"
+    },
+    {
+      "path": "./apps/api-e2e"
+    },
+    {
+      "path": "./apps/api"
     }
   ]
 }

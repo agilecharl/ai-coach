@@ -1,9 +1,9 @@
-import NxWelcome from './nx-welcome';
+import AiClient from './components/aiClient';
 
 export function App() {
   return (
     <div>
-      <NxWelcome title="@ai-coach/ai-coach" />
+      <AiClient chatbots={[]} />
     </div>
   );
 }
