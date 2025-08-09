@@ -15,13 +15,21 @@ const pool = new Pool({
 export class ChatbotService {
   async getChatbots(): Promise<Chatbot[]> {
     const res = await pool.query('SELECT * FROM chatbots');
-    return res.rows.map((row) => ({
-      id: row.id,
-      name: row.name,
-      description: row.description,
-      avatarUrl: row.avatar_url,
-      createdAt: row.created_at,
-    }));
+    return res.rows.map(
+      (row: {
+        id: any;
+        name: any;
+        description: any;
+        avatar_url: any;
+        created_at: any;
+      }) => ({
+        id: row.id,
+        name: row.name,
+        description: row.description,
+        avatarUrl: row.avatar_url,
+        createdAt: row.created_at,
+      })
+    );
   }
 
   async createChatbot(data: Partial<Chatbot>): Promise<Chatbot> {

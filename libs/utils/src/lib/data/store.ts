@@ -8,7 +8,6 @@ import {
   REGISTER,
   REHYDRATE,
   persistReducer,
-  persistStore,
 } from 'redux-persist';
 import { localStorage as originalLocalStorage } from 'redux-persist-webextension-storage';
 import settingsSlice from './settings-slice';
@@ -40,10 +39,10 @@ export const store = configureStore({
     }),
 });
 
-export const persistor = persistStore(store);
+//export const persistor = persistStore(store);
 
 new Storage().watch({
   [`persist:${persistConfig.key}`]: () => {
-    persistor.persist();
+    //persistor.persist();
   },
 });

@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express from 'express';
+import { AiService } from './services/ai.service';
 import { ChatbotService } from './services/chatbots.service';
 import { ModelService } from './services/models.service';
 const app = express();
@@ -16,6 +17,17 @@ app.use(
 
 const chatbotService = new ChatbotService();
 const modelService = new ModelService();
+
+app.post('/api/generate', async (req, res) => {
+  try {
+    const message = req.body.message;
+    const aiResponse = await AiService.generate(message);
+    res.json({ response: aiResponse });
+  } catch (error) {
+    console.error('Error generating AI response:', error);
+    res.status(500).json({ error: 'Failed to generate AI response' });
+  }
+});
 
 app.get('/api/chatbots', async (req, res) => {
   const chatbots = await chatbotService.getChatbots();

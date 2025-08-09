@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { getRecordsOllamaResponse } from '../../../../libs/utils/src/lib/data/ai-helper';
+import { initializeRestClient } from '../../../../libs/utils/src/lib/data/rest';
 import config from '../config.json';
 
 export interface Chatbot {
@@ -62,18 +64,35 @@ const AiClient: React.FC<ChatbotsProps> = ({ chatbots, onSelect }) => {
     return chatbot ? chatbot.name : 'Unknown Chatbot';
   };
 
-  const getResponse = async (chatbotId: number): Promise<string> => {
+  const getResponse = async (chatbotId: number, message: string) => {
     if (!chatbotId || chatbotId === 0) {
       return 'Please select a chatbot to start chatting.';
+    } else {
+      const selectedChatbot = getChatbotName(chatbotId);
+
+      if (!selectedChatbot) {
+        return 'Selected chatbot not found.';
+      } else {
+        initializeRestClient({
+          apiUrl: import.meta.env.VITE_REST_URL || 'http://localhost:3001',
+        });
+
+        await getRecordsOllamaResponse('ai/generate', {
+          message: message,
+          title: message,
+        })
+          .then((response) => {
+            console.log('Response from AI:', response);
+            return response;
+          })
+          .catch((error) => {
+            console.error('Error generating field content:', error);
+            return 'Error generating response. Please try again.';
+          });
+
+        return `Response from ${selectedChatbot}: ${message}`;
+      }
     }
-
-    const selectedChatbot = getChatbotName(chatbotId);
-
-    if (!selectedChatbot) {
-      return 'Selected chatbot not found.';
-    }
-
-    return `You selected: ${selectedChatbot}. How can I assist you?`;
   };
 
   useEffect(() => {
@@ -115,7 +134,7 @@ const AiClient: React.FC<ChatbotsProps> = ({ chatbots, onSelect }) => {
       content: input.trim(),
     };
 
-    await getResponse(currentChatbot).then((response) => {
+    await getResponse(currentChatbot, input.trim()).then((response) => {
       const assistantMessage = {
         id: generateId(),
         role: getChatbotName(currentChatbot),

@@ -1,6 +1,6 @@
 import { store } from './store';
 
-let apiUrl = `${process.env.PLASMO_PUBLIC_REST_URL}`;
+let apiUrl = '';
 let server = '';
 let postgresDatabase = '';
 let mongoDatabase = '';
@@ -13,6 +13,10 @@ store.subscribe(() => {
   mongoDatabase = state.mongoDatabase;
   mongoCollection = state.mongoCollection;
 });
+
+export const initializeRestClient = (config: { apiUrl: string }) => {
+  apiUrl = config.apiUrl;
+};
 
 export const getRecords = (url: string, params: any) => {
   const queryParams = new URLSearchParams(params).toString();
