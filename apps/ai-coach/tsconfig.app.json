@@ -20,7 +20,8 @@
     "**/.server/**/*.ts",
     "**/.server/**/*.tsx",
     "**/.client/**/*.ts",
-    "**/.client/**/*.tsx"
+    "**/.client/**/*.tsx",
+    "app/config.json"
   ],
   "exclude": [
     "out-tsc",
