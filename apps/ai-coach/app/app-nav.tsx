@@ -5,7 +5,8 @@ export function AppNav() {
     <nav>
       <NavLink to="/" end>
         Home
-      </NavLink>
+      </NavLink>{' '}
+      <NavLink to="/config">Config</NavLink>
     </nav>
   );
 }
