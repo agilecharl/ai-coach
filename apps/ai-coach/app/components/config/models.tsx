@@ -111,6 +111,7 @@ export const Models: React.FC<ModelsProps> = ({ models, onSelect }) => {
           )
         )}
       </ul>
+      <button onClick={() => (window.location.href = '/config')}>Return</button>
     </div>
   );
 };

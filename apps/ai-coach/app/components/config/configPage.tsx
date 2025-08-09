@@ -81,6 +81,9 @@ const ConfigPage: React.FC = () => {
         <button type="submit" style={{ marginTop: '1rem' }}>
           Save
         </button>
+        <button type="button" onClick={() => (window.location.href = '/')}>
+          Return
+        </button>
       </form>
     </div>
   );

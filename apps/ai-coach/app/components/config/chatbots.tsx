@@ -163,6 +163,7 @@ export const Chatbots: React.FC<ChatbotsProps> = ({ chatbots, onSelect }) => {
           )
         )}
       </ul>
+      <button onClick={() => (window.location.href = '/config')}>Return</button>
     </div>
   );
 };
