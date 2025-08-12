@@ -146,6 +146,17 @@ const AiClient: React.FC<ChatbotsProps> = ({ chatbots, onSelect }) => {
     });
   };
 
+  const handleNewChat = () => {
+    setMessages([
+      {
+        id: 'init',
+        role: 'assistant',
+        content: 'Hi! How can I help you today?',
+      },
+    ]);
+    setInput('');
+  };
+
   if (loading) {
     return <div>Loading chatbots...</div>;
   }
@@ -213,6 +224,9 @@ const AiClient: React.FC<ChatbotsProps> = ({ chatbots, onSelect }) => {
           Send
         </button>
       </div>
+      <button onClick={handleNewChat} style={styles.newChatButton}>
+        ➕ New Chat
+      </button>
     </div>
   );
 };
@@ -262,6 +276,15 @@ const styles = {
     background: '#10a37f',
     color: 'white',
     cursor: 'pointer',
+  },
+  newChatButton: {
+    padding: '10px 16px',
+    borderRadius: 8,
+    border: 'none',
+    background: '#007bff',
+    color: 'white',
+    cursor: 'pointer',
+    marginTop: 10,
   },
 };
 
