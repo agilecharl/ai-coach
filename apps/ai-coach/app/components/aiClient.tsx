@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getRecordsOllamaResponse } from '../../../../libs/utils/src/lib/data/ai-helper';
 import { initializeRestClient } from '../../../../libs/utils/src/lib/data/rest';
 import config from '../config.json';
@@ -53,6 +53,11 @@ const AiClient: React.FC<ChatbotsProps> = ({ chatbots, onSelect }) => {
   const [currentChatbot, setCurrentChatbot] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const getChatbotName = (id: number): string => {
     if (id === 0) {
@@ -96,6 +101,10 @@ const AiClient: React.FC<ChatbotsProps> = ({ chatbots, onSelect }) => {
   };
 
   useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  useEffect(() => {
     const loadChatbots = async () => {
       if (chatbots && chatbots.length > 0) {
         return;
@@ -131,8 +140,11 @@ const AiClient: React.FC<ChatbotsProps> = ({ chatbots, onSelect }) => {
     const userMessage = {
       id: generateId(),
       role: 'user',
-      content: input.trim(),
+      content: input,
     };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setInput('');
 
     await getResponse(currentChatbot, input.trim()).then((response) => {
       const assistantMessage = {
@@ -141,8 +153,8 @@ const AiClient: React.FC<ChatbotsProps> = ({ chatbots, onSelect }) => {
         content: response,
       };
 
-      setMessages((prev) => [...prev, userMessage, assistantMessage]);
-      setInput('');
+      setMessages((prev) => [...prev, assistantMessage]);
+      scrollToBottom();
     });
   };
 
